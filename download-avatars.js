@@ -1,11 +1,13 @@
 var request = require('request');
 var secrets = require('./secrets')
 var fs = require('fs');
+var input1 = process.argv[2];
+var input2 = process.argv[3];
 
 console.log('Welcome to the GitHub Avatar Downloader!');
-// request()
 
 function downloadImageByURL(url, filePath){
+    //requests the url with a file path
     request.get(url)
     .on('error', function(err) {
         console.log('Try different url')
@@ -22,6 +24,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
         url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
         headers: {
           'User-Agent': 'request',
+          //joining secrets folder and accessing GITHUB TOKEN from secret folder
           token: secrets.GITHUB_TOKEN
         }
     };
@@ -30,18 +33,11 @@ function getRepoContributors(repoOwner, repoName, cb) {
           cb(err, allData)
       });
 };
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(input1, input2, function(err, result) {
     console.log("Errors:", err);
+    //itirating through avatar_url using forEach function.
     result.forEach(function(element){
         downloadImageByURL(element.avatar_url, './avatarImages/' + element.id + '.jpg');
         //console.log(element.avatar_url);
     })
 });
-
-
-//  1. getRepoContributors makes a request for JSON, getting back an array of contributors.
-// getRepoContributors passes this data to cb, an anonymous callback function that it is given.
-// 2. cb loops through each item in the array:
-// 3. It constructs a file path using the login value (e.g., "avatars/dhh.jpg")
-// 4. It then passes the avatar_url value and the file path to downloadImageByURL
-// downloadImageByURL fetches the desired avatar_url and saves this information to the given filePath
