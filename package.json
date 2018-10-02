@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tbold5/avatarDownloader/issues"
   },
-  "homepage": "https://github.com/tbold5/avatarDownloader#readme"
+  "homepage": "https://github.com/tbold5/avatarDownloader#readme",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
 }
